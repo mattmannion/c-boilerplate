@@ -21,7 +21,7 @@ CFLAGS		:= -Wall -Wextra -g $(DEPFLAGS) $(foreach d, $(INCLUDES), -I$(d))
 # finds all *.c files with shell
 CFILES		:= $(shell find $(SRC) -type f -name '*.c')
 # finds all SRC dirs with shell
-DIRS 			:= $(shell find $(SRC) -type d)
+DIRS			:= $(shell find $(SRC) -type d)
 
 # subst replaces CFILES SRC path with GEN path
 OBJS := $(subst $(SRC), $(GEN), $(patsubst %.c,%.o,$(CFILES)))
