@@ -10,17 +10,17 @@ GEN = ./gen/
 OUT = ./dist/
 INC = ./includes/
 
-# static compiler flags for C
+# static C compiler flags 
 OPT				= -O0
 DEPFLAGS 	= -MP -MD
 
 # finds all Include(-I) dirs for header(*.h) files
 INCLUDES	:= $(shell find $(INC) -type d)
-# creates flag list for compiler		
+# creates flag list for C compiler		
 CFLAGS		:= -Wall -Wextra -g $(DEPFLAGS) $(foreach d, $(INCLUDES), -I$(d))
 # finds all *.c files with shell
 CFILES		:= $(shell find $(SRC) -type f -name '*.c')
-# finds all dirs with shell
+# finds all SRC dirs with shell
 DIRS 			:= $(shell find $(SRC) -type d)
 
 # subst replaces CFILES SRC path with GEN path
