@@ -11,8 +11,8 @@ OUT = ./dist/
 INC = ./includes/
 
 # static C compiler flags 
-OPT				= -O0
-DEPFLAGS 	= -MP -MD
+OPT        = -O0
+DEPFLAGS   = -MP -MD
 
 # finds all Include(-I) dirs for header(*.h) files
 INCLUDES	:= $(shell find $(INC) -type d)
@@ -21,7 +21,7 @@ CFLAGS		:= -Wall -Wextra -g $(DEPFLAGS) $(foreach d, $(INCLUDES), -I$(d))
 # finds all *.c files with shell
 CFILES		:= $(shell find $(SRC) -type f -name '*.c')
 # finds all SRC dirs with shell
-DIRS			:= $(shell find $(SRC) -type d)
+DIRS      := $(shell find $(SRC) -type d)
 
 # subst replaces CFILES SRC path with GEN path
 OBJS := $(subst $(SRC), $(GEN), $(patsubst %.c,%.o,$(CFILES)))
@@ -33,7 +33,7 @@ EXE = $(OUT)$(NAME)
 all: $(EXE)
 
 $(EXE): $(OBJS)
-	@$(shell mkdir -p $(OUT) $(INC))
+	@$(shell mkdir -p $(OUT))
 	@$(CC) -o $(EXE) $^
 	@echo "make: Compile successful for 'all'"
 
