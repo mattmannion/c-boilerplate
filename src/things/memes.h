@@ -3,4 +3,4 @@
 #define Y 43
 
 void show_memes();
-void hello();
+void hello(int num);

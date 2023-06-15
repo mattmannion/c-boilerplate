@@ -24,4 +24,9 @@ void show_memes() {
   }
 }
 
-void hello() { printf("hello %d\n", Y); }
+void hello(int num) {
+  if (!num)
+    num = 1;
+
+  printf("hello %d\n", Y * num);
+}

@@ -4,7 +4,7 @@
 int main() {
   show_memes();
 
-  hello();
+  hello(1);
 
   return 0;
 }
