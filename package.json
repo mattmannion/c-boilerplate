@@ -11,8 +11,9 @@
     }
   },
   "scripts": {
-    "d": "make clean && nodemon",
-    "r": "make clean && make",
-    "s": "make clean && make && make run"
+    "d": "nodemon",
+    "r": "make",
+    "s": "make && make run",
+    "c": "make clean"
   }
 }
