@@ -33,7 +33,7 @@ EXE = $(OUT)$(NAME)
 all: $(EXE)
 
 $(EXE): $(OBJS)
-	@$(shell mkdir -p $(OUT))
+	@$(shell mkdir -p $(OUT) $(INC))
 	@$(CC) -o $(EXE) $^
 	@echo "make: Compile successful for 'all'"
 
