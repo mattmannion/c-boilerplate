@@ -1,27 +1,25 @@
 #include "thing.h"
 #include <stdio.h>
 
-struct S_Test {
-  char *a;
-  int b;
+struct Meme {
+  int id;
+  char *name;
 };
 
-struct S_Test y[] = {
+struct Meme memes[] = {
     {
-        .a = "asdf",
-        .b = 0,
+        .id = 0,
+        .name = "asdf",
     },
     {
-        .a = "qwer",
-        .b = 1,
+        .id = 1,
+        .name = "qwer",
     },
 };
 
-void show_tests() {
-  for (long unsigned int i = 0; i < sizeof(y) / sizeof(struct S_Test); i++) {
-    printf("%p\n", &y[i].a);
-    printf("%d\n", y[i].b);
-    printf("\n");
+void show_memes() {
+  for (long unsigned int i = 0; i < sizeof(memes) / sizeof(struct Meme); i++) {
+    printf("id: %d, name: %s\n\n", memes[i].id, memes[i].name);
   }
 }
 

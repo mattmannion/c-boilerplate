@@ -2,7 +2,7 @@
 #include <stdio.h>
 
 int main() {
-  show_tests();
+  show_memes();
 
   hello();
 
