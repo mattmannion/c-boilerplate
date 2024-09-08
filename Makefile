@@ -12,15 +12,16 @@ INC = ./includes/
 
 # Static C compiler flags 
 DEBUG_OPT    = -O0
-RELEASE_OPT  = -O3  # Optimization level for release
+RELEASE_OPT  = -O3  
 DEPFLAGS     = -MP -MD
 
 # Find all Include(-I) dirs for header (*.h) files
 INCLUDES	:= $(shell find $(INC) -type d)
 
 # Create flag list for C compiler		
-CFLAGS_DEBUG   := -Wall -Wextra -g $(DEPFLAGS) $(foreach d, $(INCLUDES), -I$(d))
-CFLAGS_RELEASE := -Wall -Wextra $(RELEASE_OPT) $(DEPFLAGS) $(foreach d, $(INCLUDES), -I$(d))
+CFLAGS_DEBUG   := -Wall -Wextra -g -std=c2x $(DEPFLAGS) $(foreach d, $(INCLUDES), -I$(d))
+CFLAGS_RELEASE := -Wall -Wextra -std=c2x $(RELEASE_OPT) $(DEPFLAGS) $(foreach d, $(INCLUDES), -I$(d))
+
 
 # Find all .c files in src folder
 CFILES		:= $(shell find $(SRC) -type f -name '*.c')
@@ -48,7 +49,6 @@ all: debug
 # Debug target
 debug: CFLAGS = $(CFLAGS_DEBUG)
 debug: $(EXE)
-	$(SILENT)echo "make: Debug build complete"
 
 # Release target
 release: CFLAGS = $(CFLAGS_RELEASE)
