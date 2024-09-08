@@ -1,21 +1,24 @@
-#include "things/memes.h"
 #include <stdio.h>
 
-struct S {
+#include "things/memes.h"
+
+typedef struct {
   int a;
   int b;
-};
+} S_Stuff;
 
-struct S S_constructor(int a, int b) { return (struct S){.a = a, .b = b}; }
+S_Stuff Stuff_constructor(int a, int b) {
+  return (S_Stuff){.a = a, .b = b};
+}
 
 int main() {
   memes_show();
 
   memes_hello(3);
 
-  struct S s = S_constructor(1, 3);
+  S_Stuff stuff = Stuff_constructor(1, 3);
 
-  printf("%d, %d\n", s.a, s.b);
+  printf("%d, %d\n", stuff.a, stuff.b);
 
   return 0;
 }

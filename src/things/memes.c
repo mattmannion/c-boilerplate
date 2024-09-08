@@ -1,12 +1,12 @@
 #include "memes.h"
 #include <stdio.h>
 
-typedef struct Meme {
+typedef struct {
   int id;
-  char *name;
-} Meme;
+  char* name;
+} S_Meme;
 
-Meme memes[] = {
+S_Meme memes[] = {
     {
         .id = 0,
         .name = "asdf",
@@ -18,11 +18,13 @@ Meme memes[] = {
 };
 
 void memes_show() {
-  int length = sizeof(memes) / sizeof(Meme);
+  int length = sizeof(memes) / sizeof(S_Meme);
   for (int i = 0; i < length; i++) {
-    Meme meme = memes[i];
+    S_Meme meme = memes[i];
     printf("id: %d, name: %s\n", meme.id, meme.name);
   }
 }
 
-void memes_hello(int num) { printf("hello %d\n", Y * num); }
+void memes_hello(int num) {
+  printf("hello %d\n", Y * num);
+}
