@@ -11,14 +11,16 @@ OUT = ./dist/
 INC = ./includes/
 
 # Static C compiler flags 
-OPT        = -O0
-DEPFLAGS   = -MP -MD
+DEBUG_OPT    = -O0
+RELEASE_OPT  = -O3  # Optimization level for release
+DEPFLAGS     = -MP -MD
 
 # Find all Include(-I) dirs for header (*.h) files
 INCLUDES	:= $(shell find $(INC) -type d)
 
 # Create flag list for C compiler		
-CFLAGS		:= -Wall -Wextra -g $(DEPFLAGS) $(foreach d, $(INCLUDES), -I$(d))
+CFLAGS_DEBUG   := -Wall -Wextra -g $(DEPFLAGS) $(foreach d, $(INCLUDES), -I$(d))
+CFLAGS_RELEASE := -Wall -Wextra $(RELEASE_OPT) $(DEPFLAGS) $(foreach d, $(INCLUDES), -I$(d))
 
 # Find all .c files in src folder
 CFILES		:= $(shell find $(SRC) -type f -name '*.c')
@@ -40,8 +42,18 @@ else
     SILENT := @
 endif
 
-# Default target
-all: $(EXE)
+# Default target (debug build)
+all: debug
+
+# Debug target
+debug: CFLAGS = $(CFLAGS_DEBUG)
+debug: $(EXE)
+	$(SILENT)echo "make: Debug build complete"
+
+# Release target
+release: CFLAGS = $(CFLAGS_RELEASE)
+release: $(EXE)
+	$(SILENT)echo "make: Release build complete"
 
 # Target for creating the executable
 $(EXE): $(OBJS)
@@ -68,4 +80,4 @@ run: $(EXE)
 # Include dependency files
 -include $(DEPS)
 
-.PHONY: clean run
+.PHONY: clean run debug release
