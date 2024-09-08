@@ -5,6 +5,7 @@
     }
   ],
   "settings": {
-    "git.ignoreLimitWarning": true
+    "git.ignoreLimitWarning": true,
+    "C_Cpp.clang_format_fallbackStyle": "Chromium"
   }
 }
