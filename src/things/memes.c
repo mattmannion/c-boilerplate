@@ -17,17 +17,12 @@ Meme memes[] = {
     },
 };
 
-void show_memes() {
+void memes_show() {
   int length = sizeof(memes) / sizeof(Meme);
-  for (long unsigned int i = 0; i < length; i++) {
+  for (int i = 0; i < length; i++) {
     Meme meme = memes[i];
-    printf("id: %d, name: %s\n\n", meme.id, meme.name);
+    printf("id: %d, name: %s\n", meme.id, meme.name);
   }
 }
 
-void hello(int num) {
-  if (!num)
-    num = 1;
-
-  printf("hello %d\n", Y * num);
-}
+void memes_hello(int num) { printf("hello %d\n", Y * num); }

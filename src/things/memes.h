@@ -2,5 +2,6 @@
 
 #define Y 43
 
-void show_memes();
-void hello(int num);
+void memes_show();
+
+void memes_hello(int num);
