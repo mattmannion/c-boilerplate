@@ -9,7 +9,9 @@ struct S {
 struct S S_constructor(int a, int b) { return (struct S){.a = a, .b = b}; }
 
 int main() {
-  show_memes();
+  memes_show();
+
+  memes_hello(3);
 
   struct S s = S_constructor(1, 3);
 
