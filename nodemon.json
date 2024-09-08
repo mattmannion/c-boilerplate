@@ -1,0 +1,11 @@
+{
+  "ext": "c",
+  "signal": "SIGTERM",
+  "exec": "make && make run || exit 1",
+  "effects": {
+    "start": "clear"
+  },
+  "events": {
+    "start": "clear"
+  }
+}

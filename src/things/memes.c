@@ -18,7 +18,8 @@ Meme memes[] = {
 };
 
 void show_memes() {
-  for (long unsigned int i = 0; i < sizeof(memes) / sizeof(Meme); i++) {
+  int length = sizeof(memes) / sizeof(Meme);
+  for (long unsigned int i = 0; i < length; i++) {
     Meme meme = memes[i];
     printf("id: %d, name: %s\n\n", meme.id, meme.name);
   }

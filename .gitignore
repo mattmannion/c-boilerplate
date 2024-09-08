@@ -1,4 +1,3 @@
 dist/
 gen/
-
-*.code-workspace
+node_modules

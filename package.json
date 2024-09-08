@@ -1,19 +1,9 @@
 {
-  "nodemonConfig": {
-    "ext": "c",
-    "signal": "SIGTERM",
-    "exec": "make && make run || exit 1",
-    "effects": {
-      "start": "clear"
-    },
-    "events": {
-      "start": "clear"
-    }
-  },
   "scripts": {
     "d": "nodemon",
     "r": "make",
     "s": "make && make run",
     "c": "make clean"
-  }
+  },
+  "packageManager": "yarn@4.4.1"
 }

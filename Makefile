@@ -1,50 +1,71 @@
-# compiler choice
+# Compiler choice
 CC = gcc
 
-# binary name
+# Binary name
 NAME = main
 
-# project dirs
+# Project directories
 SRC = ./src/
 GEN = ./gen/
 OUT = ./dist/
 INC = ./includes/
 
-# static C compiler flags 
+# Static C compiler flags 
 OPT        = -O0
 DEPFLAGS   = -MP -MD
 
-# finds all Include(-I) dirs for header(*.h) files
+# Find all Include(-I) dirs for header (*.h) files
 INCLUDES	:= $(shell find $(INC) -type d)
-# creates flag list for C compiler		
+
+# Create flag list for C compiler		
 CFLAGS		:= -Wall -Wextra -g $(DEPFLAGS) $(foreach d, $(INCLUDES), -I$(d))
-# finds all *.c files with shell
+
+# Find all .c files in src folder
 CFILES		:= $(shell find $(SRC) -type f -name '*.c')
-# finds all SRC dirs with shell
+
+# Find all SRC directories
 DIRS      := $(shell find $(SRC) -type d)
 
-# subst replaces CFILES SRC path with GEN path
+# Substitute CFILES SRC path with GEN path for object files
 OBJS := $(subst $(SRC), $(GEN), $(patsubst %.c,%.o,$(CFILES)))
 DEPS := $(subst $(SRC), $(GEN), $(patsubst %.c,%.d,$(CFILES)))
 
-# exe path
+# Executable path
 EXE = $(OUT)$(NAME)
 
+# Control verbosity (silent by default, verbose if VERBOSE=1)
+ifeq ($(VERBOSE), 1)
+    SILENT :=
+else
+    SILENT := @
+endif
+
+# Default target
 all: $(EXE)
 
+# Target for creating the executable
 $(EXE): $(OBJS)
-	@$(shell mkdir -p $(OUT) $(INC))
-	@$(CC) -o $(EXE) $^
-	@echo "make: Compile successful for 'all'"
+	$(SILENT)mkdir -p $(OUT)
+	$(SILENT)$(CC) -o $(EXE) $^
+	$(SILENT)echo "make: Compile successful for 'all'"
 
-$(GEN)%.o: $(SRC)%.c 
-	@$(foreach d, $(subst $(SRC), $(GEN), $(DIRS)), $(shell mkdir -p $(d)) )
-	@$(CC) $(CFLAGS) -c -o $@ $<
+# Compile object files, ensure directories exist
+$(GEN)%.o: $(SRC)%.c | prepare_gen_dirs
+	$(SILENT)$(CC) $(CFLAGS) -c -o $@ $<
 
+# Create necessary directories for generated files
+prepare_gen_dirs:
+	$(SILENT)$(foreach d, $(DIRS), mkdir -p $(subst $(SRC), $(GEN), $(d));)
+
+# Clean the build files
 clean:
-	@rm -rf $(OUT)* $(GEN)*
+	$(SILENT)rm -rf $(OUT)* $(GEN)*
 
+# Run the executable
+run: $(EXE)
+	$(SILENT)$(EXE)
+
+# Include dependency files
 -include $(DEPS)
 
-run:
-	@$(EXE)
+.PHONY: clean run
