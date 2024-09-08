@@ -1,6 +1,7 @@
 {
   "scripts": {
-    "d": "nodemon",
+    "d": "cmd/dev.sh",
+    "mon": "nodemon",
     "m": "make",
     "r": "make release",
     "s": "make release && make run",
