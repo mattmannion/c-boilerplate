@@ -1,11 +1,11 @@
 {
   "scripts": {
     "d": "cmd/dev.sh",
-    "mon": "nodemon",
+    "mon": "nodemon -q",
     "m": "make",
     "r": "make release",
     "s": "make release && make run",
     "c": "make clean"
   },
-  "packageManager": "yarn@4.4.1"
+  "packageManager": "yarn@4.9.1"
 }

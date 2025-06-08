@@ -4,9 +4,9 @@
 typedef struct {
   int id;
   char* name;
-} S_Meme;
+} T_Meme;
 
-S_Meme memes[] = {
+T_Meme memes[] = {
     {
         .id = 0,
         .name = "asdf",
@@ -18,9 +18,9 @@ S_Meme memes[] = {
 };
 
 void memes_show() {
-  int length = sizeof(memes) / sizeof(S_Meme);
+  int length = sizeof(memes) / sizeof(T_Meme);
   for (int i = 0; i < length; i++) {
-    S_Meme meme = memes[i];
+    T_Meme meme = memes[i];
     printf("id: %d, name: %s\n", meme.id, meme.name);
   }
 }
