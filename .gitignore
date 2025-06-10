@@ -1,4 +1,7 @@
-dist/
-gen/
-node_modules
 .cache
+.conan
+
+dist
+gen
+
+node_modules

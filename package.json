@@ -5,7 +5,9 @@
     "m": "make",
     "r": "make release",
     "s": "make release && make run",
-    "c": "make clean"
+    "c": "make clean",
+    "setup": "cmd/setup.sh",
+    "conan": "conan install . --output-folder=.conan --build=missing"
   },
   "devDependencies": {
     "nodemon": "^3.1.10"

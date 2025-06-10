@@ -2,33 +2,81 @@
 
 set -euo pipefail
 
-# Check for sudo
-if [[ "$EUID" -ne 0 ]]; then
-    echo "Please run this script as root or with sudo:"
-    echo "    sudo $0"
-    exit 1
+echo "🛠️  Starting C development environment setup..."
+
+# Update and upgrade package lists
+echo "🔄 Updating system packages..."
+sudo apt update -y &> /dev/null
+echo "🔄 Upgrading system packages..."
+sudo apt upgrade -y &> /dev/null
+
+# Base dev tools (only install if missing)
+DEV_TOOLS=(
+  build-essential
+  make
+  wget
+  curl
+  git
+  lsb-release
+  gnupg
+  software-properties-common
+  pkg-config 
+  python3
+  python3-pip
+  pipx
+)
+
+echo "📦 Checking and installing base development tools..."
+for pkg in "${DEV_TOOLS[@]}"; do
+  if ! dpkg -s "$pkg" &>/dev/null; then
+    echo "⬇️  Installing $pkg..."
+    sudo apt install -y "$pkg"
+  else
+    echo "✅ $pkg is already installed."
+  fi
+done
+
+# Ensure pipx is initialized
+echo "🔧 Ensuring pipx is ready..."
+if ! echo "$PATH" | grep -q "$HOME/.local/bin"; then
+    echo "🔧 Adding ~/.local/bin to PATH..."
+    python3 -m pipx ensurepath
+    export PATH="$HOME/.local/bin:$PATH"
+else
+    echo "✅ ~/.local/bin already in PATH."
 fi
 
-# Base dev tools
-echo "Installing base development tools..."
-apt update
-apt install -y build-essential make wget curl git lsb-release gnupg software-properties-common
-
-# Add LLVM APT repo and install clangd-20
-echo "Adding LLVM APT repo and installing Clang/Clangd 20..."
-curl -fsSL https://apt.llvm.org/llvm.sh | bash -s -- 20
-apt install -y clangd-20
+# Clangd-20 setup
+if ! command -v clangd-20 &>/dev/null; then
+    echo "⬇️  Installing Clangd 20 from LLVM APT..."
+    curl -fsSL https://apt.llvm.org/llvm.sh | sudo bash -s -- 20
+    sudo apt install -y clangd-20
+else
+    echo "✅ Clangd 20 already installed."
+fi
 
 # Set clangd-20 as default
-echo "Configuring clangd alternatives..."
-update-alternatives --install /usr/bin/clangd clangd /usr/bin/clangd-20 100
+if ! command -v clangd &>/dev/null || ! clangd --version | grep -q "clangd version 20"; then
+    echo "🔧 Setting clangd-20 as default..."
+    sudo update-alternatives --install /usr/bin/clangd clangd /usr/bin/clangd-20 100
+else
+    echo "✅ clangd is already set to version 20."
+fi
 
-# Install bear for compile_commands.json generation
-echo "Installing Bear..."
-apt install -y bear
+# Bear (compile_commands.json generator)
+if ! command -v bear &>/dev/null; then
+    echo "⬇️  Installing Bear..."
+    sudo apt install -y bear
+else
+    echo "✅ Bear already installed."
+fi
 
-# Optional: Install LLDB, LLD, clang-format if you use them
-# apt install -y lldb-20 lld-20 clang-format-20
+# Conan (via pipx)
+if ! command -v conan &>/dev/null; then
+    echo "⬇️  Installing Conan via pipx..."
+    pipx install conan
+else
+    echo "✅ Conan already installed."
+fi
 
-# Success message
-echo "✅ All tools installed. You can now use clangd + bear + make for development."
+echo "🎉 Setup complete!"

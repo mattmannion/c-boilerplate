@@ -9,6 +9,7 @@ SRC = ./src/
 GEN = ./gen/
 OUT = ./dist/
 INC = ./includes/
+CONAN_DIR = .conan
 
 # Static C compiler flags 
 DEBUG_OPT    = -O0
@@ -18,9 +19,14 @@ DEPFLAGS     = -MP -MD
 # Find all Include(-I) dirs for header (*.h) files
 INCLUDES	:= $(shell find $(INC) -type d)
 
+# Conan pkg-config setup
+PKG_CONFIG_PATH := $(CONAN_DIR)
+PKG_CFLAGS := $(shell PKG_CONFIG_PATH=$(PKG_CONFIG_PATH) pkg-config --cflags --silence-errors zlib)
+PKG_LDFLAGS := $(shell PKG_CONFIG_PATH=$(PKG_CONFIG_PATH) pkg-config --libs --silence-errors zlib)
+
 # Create flag list for C compiler		
-CFLAGS_DEBUG   := -Wall -Wextra -g -std=c2x $(DEPFLAGS) $(foreach d, $(INCLUDES), -I$(d))
-CFLAGS_RELEASE := -Wall -Wextra -std=c2x $(RELEASE_OPT) $(DEPFLAGS) $(foreach d, $(INCLUDES), -I$(d))
+CFLAGS_DEBUG   := -Wall -Wextra -g -std=c2x $(DEPFLAGS) $(foreach d, $(INCLUDES), -I$(d)) $(PKG_CFLAGS)
+CFLAGS_RELEASE := -Wall -Wextra -std=c2x $(RELEASE_OPT) $(DEPFLAGS) $(foreach d, $(INCLUDES), -I$(d)) $(PKG_CFLAGS)
 
 # Find all .c files in src folder
 CFILES		:= $(shell find $(SRC) -type f -name '*.c')
@@ -57,7 +63,7 @@ release: $(EXE)
 # Target for creating the executable
 $(EXE): $(OBJS)
 	$(SILENT)mkdir -p $(OUT)
-	$(SILENT)$(CC) -o $(EXE) $^
+	$(SILENT)$(CC) -o $(EXE) $^ $(PKG_LDFLAGS)
 	$(SILENT)echo "make: Compile successful for 'all'"
 
 # Compile object files, ensure directories exist
@@ -70,7 +76,7 @@ prepare_gen_dirs:
 
 # Clean the build files
 clean:
-	$(SILENT)rm -rf $(OUT)* $(GEN)*
+	$(SILENT)rm -rf $(OUT)* $(GEN)* $(CONAN_DIR)
 
 # Run the executable
 run: $(EXE)
