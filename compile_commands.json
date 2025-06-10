@@ -1,0 +1,36 @@
+[
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-Wall",
+      "-Wextra",
+      "-g",
+      "-std=c2x",
+      "-I./includes/",
+      "-c",
+      "-o",
+      "gen/main.o",
+      "src/main.c"
+    ],
+    "directory": "/home/matt/dev/c/pg",
+    "file": "/home/matt/dev/c/pg/src/main.c",
+    "output": "/home/matt/dev/c/pg/gen/main.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-Wall",
+      "-Wextra",
+      "-g",
+      "-std=c2x",
+      "-I./includes/",
+      "-c",
+      "-o",
+      "gen/things/memes.o",
+      "src/things/memes.c"
+    ],
+    "directory": "/home/matt/dev/c/pg",
+    "file": "/home/matt/dev/c/pg/src/things/memes.c",
+    "output": "/home/matt/dev/c/pg/gen/things/memes.o"
+  }
+]

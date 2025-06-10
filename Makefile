@@ -22,7 +22,6 @@ INCLUDES	:= $(shell find $(INC) -type d)
 CFLAGS_DEBUG   := -Wall -Wextra -g -std=c2x $(DEPFLAGS) $(foreach d, $(INCLUDES), -I$(d))
 CFLAGS_RELEASE := -Wall -Wextra -std=c2x $(RELEASE_OPT) $(DEPFLAGS) $(foreach d, $(INCLUDES), -I$(d))
 
-
 # Find all .c files in src folder
 CFILES		:= $(shell find $(SRC) -type f -name '*.c')
 
@@ -77,7 +76,15 @@ clean:
 run: $(EXE)
 	$(SILENT)$(EXE)
 
+# Update the compilation database
+.PHONY: compdb
+compdb: clean   ## rebuild *and* update compilation database
+	@bear -- $(MAKE) -j$(nproc)
+
+# Helpful alias so clangd always sees up-to-date flags
+compile_commands.json: compdb
+
 # Include dependency files
 -include $(DEPS)
 
-.PHONY: clean run debug release
+.PHONY: clean run debug release compile_commands.json
